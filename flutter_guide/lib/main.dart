@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guide/question.dart';
+import 'package:flutter_guide/answer.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,9 +11,20 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
-  final List quesitons = [
-    '¿What\'s your favorite color?',
-    '¿What\'s your favorite animal?',
+
+  var quesitons = [
+    {
+      'questionText': '¿What\'s your favorite color?', 
+      'answers': ['Black', 'Red', 'Blue', 'Pink'],
+    },
+    {
+      'questionText': '¿What\'s your favorite animal?', 
+      'answers': ['Dog', 'Cat', 'Rabbit', 'Snake', 'Lion'],
+    },
+    {
+      'questionText': '¿Who\'s your favorite teacher?', 
+      'answers': ['Mori-sensei', 'Mori-sensei', 'Mori-sensei'],
+    }
   ];
 
   void _answerQuestion() {
@@ -32,21 +44,11 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Colors.lightBlue[900]
         ),
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Question(quesitons[_questionIndex]),
-            RaisedButton(
-              onPressed: _answerQuestion,
-              child: Text('Aswer 1'),
-            ),
-            RaisedButton(
-              onPressed: _answerQuestion,
-              child: Text('Aswer 2'),
-            ),
-            RaisedButton(
-              onPressed: _answerQuestion,
-              child: Text('Aswer 3'),
-            ),
+            Question(quesitons[_questionIndex]['questionText']),
+            Answer(_answerQuestion),
+            Answer(_answerQuestion),
+            Answer(_answerQuestion)
           ],
         ),
       )
