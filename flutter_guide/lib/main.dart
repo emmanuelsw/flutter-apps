@@ -10,26 +10,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var _questionIndex = 0;
+  var index = 0;
 
-  var quesitons = [
+  var questions = [
     {
-      'questionText': '¿What\'s your favorite color?', 
+      'question': '¿What\'s your favorite color?',
       'answers': ['Black', 'Red', 'Blue', 'Pink'],
     },
     {
-      'questionText': '¿What\'s your favorite animal?', 
+      'question': '¿What\'s your favorite animal?',
       'answers': ['Dog', 'Cat', 'Rabbit', 'Snake', 'Lion'],
     },
     {
-      'questionText': '¿Who\'s your favorite teacher?', 
+      'question': '¿Who\'s your favorite teacher?',
       'answers': ['Mori-sensei', 'Mori-sensei', 'Mori-sensei'],
     }
   ];
 
   void _answerQuestion() {
     setState(() {
-      _questionIndex++;
+      index++;
     });
   }
 
@@ -41,18 +41,16 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           elevation: 0.0,
           title: Text('Jewel App'),
-          backgroundColor: Colors.lightBlue[900]
+          backgroundColor: Colors.lightBlue[900],
         ),
         body: Column(
           children: [
-            Question(quesitons[_questionIndex]['questionText']),
-            Answer(_answerQuestion),
-            Answer(_answerQuestion),
-            Answer(_answerQuestion)
+            Question(questions[index]['question']),
+            for (var answer in questions[index]['answers'])
+              Answer(_answerQuestion, answer),
           ],
         ),
-      )
+      ),
     );
   }
-
 }
