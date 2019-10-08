@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_guide/question.dart';
-import 'package:flutter_guide/answer.dart';
+import 'package:flutter_guide/quiz.dart';
+import 'package:flutter_guide/result.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,26 +10,44 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var index = 0;
+  var _index = 0;
+  var _score = 0;
 
-  var questions = [
+  final _questions = const [
     {
       'question': '¿What\'s your favorite color?',
-      'answers': ['Black', 'Red', 'Blue', 'Pink'],
+      'answers': [
+        {'text': 'Black', 'score': 10 }, 
+        {'text': 'Red', 'score': 3 }, 
+        {'text': 'Blue', 'score': 2 }, 
+        {'text': 'Pink', 'score': 1 }
+      ],
     },
     {
       'question': '¿What\'s your favorite animal?',
-      'answers': ['Dog', 'Cat', 'Rabbit', 'Snake', 'Lion'],
+      'answers': [
+        {'text': 'Dog', 'score': 10 }, 
+        {'text': 'Cat', 'score': 10 }, 
+        {'text': 'Rabbit', 'score': 2 }, 
+        {'text': 'Snake', 'score': 5 }, 
+        {'text': 'Lion', 'score': 6 }
+      ],
     },
     {
       'question': '¿Who\'s your favorite teacher?',
-      'answers': ['Mori-sensei', 'Mori-sensei', 'Mori-sensei'],
+      'answers': [
+        {'text': 'Mori-sensei', 'score': 5 }, 
+        {'text': 'Mori-sensei', 'score': 5 },
+        {'text': 'Mori-sensei', 'score': 5 },
+        {'text': 'Random', 'score': 2 }
+      ],
     }
   ];
 
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
+    _score += score;
     setState(() {
-      index++;
+      _index++;
     });
   }
 
@@ -40,16 +58,16 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          title: Text('Jewel App'),
+          title: Text('Quiz App'),
           backgroundColor: Colors.lightBlue[900],
         ),
-        body: Column(
-          children: [
-            Question(questions[index]['question']),
-            for (var answer in questions[index]['answers'])
-              Answer(_answerQuestion, answer),
-          ],
-        ),
+        body: _index < _questions.length
+          ? Quiz(
+              _questions[_index]['question'], 
+              _questions[_index]['answers'],
+              _answerQuestion
+            )
+          : Result(_score),
       ),
     );
   }
