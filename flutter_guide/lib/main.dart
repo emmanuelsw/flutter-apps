@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(50.0),
-          child: MyAppBar(),
+          child: MyAppBar(_resetQuiz),
         ),
         backgroundColor: Color.fromRGBO(44, 44, 84,1.0),
         body: _index < _questions.length

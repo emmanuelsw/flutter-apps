@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget {
+  final Function resetQuiz;
+
+  MyAppBar(this.resetQuiz);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class MyAppBar extends StatelessWidget {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.refresh),
-          onPressed: () {},
+          onPressed: resetQuiz,
         ),
         IconButton(
           icon: Icon(Icons.menu),

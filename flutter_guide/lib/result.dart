@@ -32,6 +32,7 @@ class Result extends StatelessWidget {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(255, 82, 82, 1.0),
               ),
               textAlign: TextAlign.center,
             ),
