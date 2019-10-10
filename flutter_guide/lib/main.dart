@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_guide/quiz.dart';
 import 'package:flutter_guide/result.dart';
+import 'package:flutter_guide/myappbar.dart';
 
 void main() => runApp(MyApp());
 
@@ -63,11 +64,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          title: Text('Quiz App'),
-          backgroundColor: Colors.lightBlue[900],
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(50.0),
+          child: MyAppBar(),
         ),
+        backgroundColor: Color.fromRGBO(44, 44, 84,1.0),
         body: _index < _questions.length
           ? Quiz(
               _questions[_index]['question'], 

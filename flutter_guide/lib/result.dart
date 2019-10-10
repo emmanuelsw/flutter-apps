@@ -25,13 +25,16 @@ class Result extends StatelessWidget {
     return Center(
       child: Column(
         children: <Widget>[
-          Text(
-            phrase,
-            style: TextStyle(
-              fontSize: 36.0,
-              fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.only(top: 40, bottom: 20),
+            child: Text(
+              phrase,
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
           RaisedButton(
             child: Text('Restart Quiz'),
