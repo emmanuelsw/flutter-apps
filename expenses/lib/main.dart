@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
       id: 't1',
       title: 'さくら学院 Photo Sets',
       amount: 18.55,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(Duration(days: 1)),
     ),
   ];
 

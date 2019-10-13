@@ -47,10 +47,36 @@ class _NewTransactionState extends State<NewTransaction> {
                 labelText: 'Amount',
               ),
             ),
+            Container(
+              height: 70,
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'No Date Chosen!',
+                    style: TextStyle(
+                      color: Color.fromRGBO(117, 117, 117, 1),
+                    ),
+                  ),
+                  FlatButton(
+                    textColor: Theme.of(context).primaryColor,
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+            ),
             RaisedButton(
-              child: Text('Add Transaction'),
+              child: Text(
+                'Add Transaction',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               onPressed: submitData,
-              color: Colors.blue[500],
+              color: Theme.of(context).primaryColor,
               textColor: Colors.white,
             )
           ],
