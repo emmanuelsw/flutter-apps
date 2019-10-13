@@ -70,12 +70,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _startTransaction(BuildContext ctx) {
+  void _showFormSheet(BuildContext ctx) {
     showModalBottomSheet(
     context: ctx,
     builder: (_) {
       return NewTransaction(_addTransaction);
-    
     });
   }
 
@@ -87,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () => _startTransaction(context),
+            onPressed: () => _showFormSheet(context),
           ),
         ],
       ),
@@ -101,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => _startTransaction(context),
+        onPressed: () => _showFormSheet(context),
       ),
     );
   }
