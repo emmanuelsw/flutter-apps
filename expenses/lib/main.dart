@@ -36,9 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
       date: DateTime.now(),
     ),
     Transaction(
-      id: 't1',
+      id: 't2',
       title: 'さくら学院 Photo Sets',
-      amount: 18.55,
+      amount: 48.55,
       date: DateTime.now().subtract(Duration(days: 1)),
     ),
   ];
@@ -49,16 +49,24 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addTransaction(String title, double amount) {
+  void _addTransaction(String title, double amount, DateTime date) {
     final newTransaction = Transaction(
       title: title,
       amount: amount,
       id: DateTime.now().toString(),
-      date: DateTime.now(),
+      date: date,
     );
 
     setState(() {
       _transactions.add(newTransaction);
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tx) {
+        return tx.id == id;
+      });
     });
   }
 
@@ -87,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_transactions),
+            TransactionList(_transactions, _deleteTransaction),
           ],
         ),
       ),
