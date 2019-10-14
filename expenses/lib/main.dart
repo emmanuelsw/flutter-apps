@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
         accentColor: Colors.red,
-        fontFamily: 'Quicksand'
+        fontFamily: 'Quicksand',
       ),
       home: MyHomePage(),
     );
@@ -72,29 +72,47 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _showFormSheet(BuildContext ctx) {
     showModalBottomSheet(
-    context: ctx,
-    builder: (_) {
-      return NewTransaction(_addTransaction);
-    });
+      context: ctx,
+      builder: (_) {
+        return NewTransaction(_addTransaction);
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Expenses App', style: TextStyle(fontWeight: FontWeight.bold)),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _showFormSheet(context),
-          ),
-        ],
+    final appBar = AppBar(
+      title: Text(
+        'Expenses App',
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _showFormSheet(context),
+        ),
+      ],
+    );
+
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_transactions, _deleteTransaction),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.3,
+              child: Chart(_recentTransactions),
+            ),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.7,
+              child: TransactionList(_transactions, _deleteTransaction),
+            ),
           ],
         ),
       ),
