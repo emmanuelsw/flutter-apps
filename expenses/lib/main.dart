@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import './models/transaction.dart';
 import './widgets/new_transaction.dart';
@@ -13,10 +15,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Expenses App',
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        accentColor: Colors.red,
-        fontFamily: 'Quicksand'
-      ),
+          primarySwatch: Colors.deepPurple,
+          accentColor: Colors.red,
+          fontFamily: 'Quicksand'),
       home: MyHomePage(),
     );
   }
@@ -96,17 +97,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _showFormSheet(BuildContext ctx) {
     showModalBottomSheet(
-    context: ctx,
-    builder: (_) {
-      return NewTransaction(_addTransaction);
-    });
+      context: ctx,
+      builder: (_) {
+        return NewTransaction(_addTransaction);
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Expenses App', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(
+          'Expenses App',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
@@ -115,17 +120,19 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Column(
-          children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_transactions, _deleteTransaction),
-          ],
-        ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.teal,
-        label: Text('Add', style: TextStyle(fontWeight: FontWeight.bold)),
-        icon: Icon(Icons.add),
-        onPressed: () => _showFormSheet(context),
+        children: <Widget>[
+          Chart(_recentTransactions),
+          TransactionList(_transactions, _deleteTransaction),
+        ],
       ),
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton.extended(
+              backgroundColor: Colors.teal,
+              label: Text('Add', style: TextStyle(fontWeight: FontWeight.bold)),
+              icon: Icon(Icons.add),
+              onPressed: () => _showFormSheet(context),
+            ),
     );
   }
 }

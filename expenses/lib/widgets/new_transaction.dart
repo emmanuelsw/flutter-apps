@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -49,26 +50,26 @@ class _NewTransactionState extends State<NewTransaction> {
       child: Card(
         child: Container(
           padding: EdgeInsets.only(
+            top: 20,
             right: 20,
             left: 20,
             bottom: MediaQuery.of(context).viewInsets.bottom + 20,
           ),
           child: Column(
             children: <Widget>[
-              TextField(
+              CupertinoTextField(
+                style: TextStyle(fontFamily: 'Quicksand', fontSize: 15),
                 controller: _titleController,
                 onSubmitted: (_) => _submitData(),
-                decoration: InputDecoration(
-                  labelText: 'Title',
-                ),
+                placeholder: 'Title',
               ),
-              TextField(
+              SizedBox(height: 10,),
+              CupertinoTextField(
+                style: TextStyle(fontFamily: 'Quicksand', fontSize: 15),
                 controller: _amountController,
                 keyboardType: TextInputType.number,
                 onSubmitted: (_) => _submitData(),
-                decoration: InputDecoration(
-                  labelText: 'Amount',
-                ),
+                placeholder: 'Amount',
               ),
               Container(
                 height: 70,
@@ -80,7 +81,7 @@ class _NewTransactionState extends State<NewTransaction> {
                           ? 'No Date Chosen!'
                           : 'Picked Date: ${DateFormat.yMMMd().format(_selectedDate)}',
                       style: TextStyle(
-                        color: Color.fromRGBO(117, 117, 117, 1),
+                        color: Color.fromRGBO(194, 194, 194, 1)
                       ),
                     ),
                     FlatButton(
