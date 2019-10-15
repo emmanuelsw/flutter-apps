@@ -120,8 +120,10 @@ class _MyHomePageState extends State<MyHomePage> {
             TransactionList(_transactions, _deleteTransaction),
           ],
         ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.teal,
+        label: Text('Add', style: TextStyle(fontWeight: FontWeight.bold)),
+        icon: Icon(Icons.add),
         onPressed: () => _showFormSheet(context),
       ),
     );
