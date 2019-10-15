@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
         accentColor: Colors.red,
-        fontFamily: 'Quicksand',
+        fontFamily: 'Quicksand'
       ),
       home: MyHomePage(),
     );
@@ -38,8 +38,32 @@ class _MyHomePageState extends State<MyHomePage> {
     Transaction(
       id: 't2',
       title: 'さくら学院 Photo Sets',
-      amount: 48.55,
+      amount: 88.55,
       date: DateTime.now().subtract(Duration(days: 1)),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'さくら学院 Magazine',
+      amount: 18.55,
+      date: DateTime.now().subtract(Duration(days: 1)),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'さくら学院 RTG',
+      amount: 72.55,
+      date: DateTime.now().subtract(Duration(days: 2)),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'さくら学院 GakuinSai',
+      amount: 60.55,
+      date: DateTime.now().subtract(Duration(days: 3)),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'さくら学院 Photobook',
+      amount: 80.55,
+      date: DateTime.now().subtract(Duration(days: 5)),
     ),
   ];
 
@@ -72,50 +96,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _showFormSheet(BuildContext ctx) {
     showModalBottomSheet(
-      context: ctx,
-      builder: (_) {
-        return NewTransaction(_addTransaction);
-      },
-    );
+    context: ctx,
+    builder: (_) {
+      return NewTransaction(_addTransaction);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final appBar = AppBar(
-      title: Text(
-        'Expenses App',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () => _showFormSheet(context),
-        ),
-      ],
-    );
-
     return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
+      appBar: AppBar(
+        title: Text('Expenses App', style: TextStyle(fontWeight: FontWeight.bold)),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => _showFormSheet(context),
+          ),
+        ],
+      ),
+      body: Column(
           children: <Widget>[
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.3,
-              child: Chart(_recentTransactions),
-            ),
-            Container(
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.7,
-              child: TransactionList(_transactions, _deleteTransaction),
-            ),
+            Chart(_recentTransactions),
+            TransactionList(_transactions, _deleteTransaction),
           ],
         ),
-      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _showFormSheet(context),
