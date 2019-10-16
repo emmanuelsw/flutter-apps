@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import '../widgets/transaction_item.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -8,7 +8,7 @@ class TransactionList extends StatelessWidget {
 
   TransactionList(this.transactions, this.deleteTransaction);
 
-  Widget noContent(BuildContext context) {
+  Widget _noContent(BuildContext context) {
     return Column(
       children: <Widget>[
         SizedBox(height: 30),
@@ -32,41 +32,10 @@ class TransactionList extends StatelessWidget {
     );
   }
 
-  Widget transactionList(BuildContext context) {
+  Widget _transactionList(BuildContext context) {
     return ListView.builder(
       itemBuilder: (ctx, index) {
-        return Card(
-          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: ListTile(
-            leading: CircleAvatar(
-              radius: 30,
-              child: Text(
-                '\$${transactions[index].amount.toStringAsFixed(2)}',
-              ),
-            ),
-            title: Text(
-              transactions[index].title,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-            subtitle: Text(
-              DateFormat.yMMMd().format(transactions[index].date),
-              style: TextStyle(
-                fontSize: 13,
-                color: Colors.grey[600],
-              ),
-            ),
-            trailing: IconButton(
-              icon: Icon(
-                Icons.delete,
-                color: Theme.of(context).errorColor,
-              ),
-              onPressed: () => deleteTransaction(transactions[index].id),
-            ),
-          ),
-        );
+        return TransactionItem(transactions[index], deleteTransaction);
       },
       itemCount: transactions.length,
     );
@@ -78,8 +47,8 @@ class TransactionList extends StatelessWidget {
       child: Container(
         height: 390,
         child: transactions.isEmpty
-            ? noContent(context)
-            : transactionList(context),
+            ? _noContent(context)
+            : _transactionList(context),
       ),
     );
   }
