@@ -33,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     Transaction(
       id: 't1',
       title: 'Scanner',
-      amount: 99.98,
+      amount: 39.98,
       date: DateTime.now(),
     ),
     Transaction(
@@ -85,7 +85,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     super.dispose();
   }
 
-
   List<Transaction> get _recentTransactions {
     return _transactions.where((tx) {
       return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
@@ -125,14 +124,21 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(241, 243, 244, 1),
       appBar: AppBar(
+        brightness: Brightness.light,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Text(
           'Expenses App',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.deepPurple,
+          ),
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.add),
+            icon: Icon(Icons.add, color: Colors.deepPurple,),
             onPressed: () => _showFormSheet(context),
           ),
         ],

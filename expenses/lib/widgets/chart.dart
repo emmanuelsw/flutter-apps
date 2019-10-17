@@ -28,15 +28,19 @@ class Chart extends StatelessWidget {
     }).reversed.toList();
   }
 
-  double get totalSpending {
-    return groupedTransactions.fold(0.0, (sum, item) {
-      return sum + item['amount'];
-    });
+  double get maxValue {
+    List amounts = [];
+
+    for (var tx in groupedTransactions) {
+      amounts.add(tx['amount']);
+    }
+    return amounts.reduce((curr, next) => curr > next ? curr : next);
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 0,
       margin: EdgeInsets.all(15),
       child: Container(
         padding: EdgeInsets.all(10),
@@ -48,7 +52,7 @@ class Chart extends StatelessWidget {
                 child: ChartBar(
                   data['day'],
                   data['amount'],
-                  totalSpending == 0.0 ? 0.0 : (data['amount'] as double) / totalSpending,
+                  maxValue == 0.0 ? 0.0 : (data['amount'] as double) / maxValue,
                 ),
               ),
           ],

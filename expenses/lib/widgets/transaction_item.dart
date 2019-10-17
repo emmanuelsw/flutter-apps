@@ -26,8 +26,8 @@ class _TransactionItemState extends State<TransactionItem> {
   @override
   void initState() {
     const availableColors = [
-      Colors.red,
-      Colors.black,
+      Colors.deepPurple,
+      Colors.teal,
       Colors.blue,
       Colors.purple
     ];
@@ -39,13 +39,16 @@ class _TransactionItemState extends State<TransactionItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 0,
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: _selectedColor,
+
           radius: 30,
           child: Text(
             '\$${widget.transaction.amount.toStringAsFixed(2)}',
+            style: TextStyle(color: Colors.white),
           ),
         ),
         title: Text(
