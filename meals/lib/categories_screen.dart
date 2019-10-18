@@ -10,7 +10,7 @@ class CategoriesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Meals App',
+          'MinipatiApp',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -27,6 +27,7 @@ class CategoriesScreen extends StatelessWidget {
         children: <Widget>[
           for (var category in DUMMY_CATEGORIES)
             CategoryItem(
+              id: category.id,
               title: category.title,
               color: category.color,
             )
