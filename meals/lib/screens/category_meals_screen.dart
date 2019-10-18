@@ -16,6 +16,7 @@ class CategoryMealsScreen extends StatelessWidget {
     }).toList();
 
     return Scaffold(
+      backgroundColor: Color.fromRGBO(241, 243, 244, 1),
       appBar: AppBar(
         title: Text(
           title,

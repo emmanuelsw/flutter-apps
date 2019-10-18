@@ -57,9 +57,9 @@ class MealItem extends StatelessWidget {
       onTap: selectMeal,
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
-        elevation: 4,
+        elevation: 0,
         margin: EdgeInsets.all(10),
         child: Column(
           children: <Widget>[
@@ -99,7 +99,7 @@ class MealItem extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(18),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
