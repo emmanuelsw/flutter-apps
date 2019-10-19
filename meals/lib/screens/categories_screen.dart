@@ -7,32 +7,22 @@ class CategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'MinipatiApp',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+    return GridView(
+      padding: const EdgeInsets.all(20),
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 200,
+        childAspectRatio: 3 / 2,
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 20,
       ),
-      body: GridView(
-        padding: const EdgeInsets.all(20),
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200,
-          childAspectRatio: 3 / 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-        ),
-        children: <Widget>[
-          for (var category in DUMMY_CATEGORIES)
-            CategoryItem(
-              id: category.id,
-              title: category.title,
-              color: category.color,
-            )
-        ],
-      ),
+      children: <Widget>[
+        for (var category in DUMMY_CATEGORIES)
+          CategoryItem(
+            id: category.id,
+            title: category.title,
+            color: category.color,
+          )
+      ],
     );
   }
 }
