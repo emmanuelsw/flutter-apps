@@ -135,7 +135,7 @@ class MealItem extends StatelessWidget {
                       SizedBox(
                         width: 3,
                       ),
-                      Text(complexityText, style: AppStyle.bold),
+                      Text(affordabilityText, style: AppStyle.bold),
                     ],
                   )
                 ],

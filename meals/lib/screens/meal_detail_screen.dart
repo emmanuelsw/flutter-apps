@@ -19,8 +19,9 @@ class MealDetailScreen extends StatelessWidget {
 
   Widget _listContainer({Widget child}) {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 6),
       height: 200,
-      width: 300,
+      width: double.infinity,
       child: child,
     );
   }
@@ -56,9 +57,14 @@ class MealDetailScreen extends StatelessWidget {
               child: ListView.builder(
                 itemCount: meal.ingredients.length,
                 itemBuilder: (ctx, i) => Card(
-                  color: Theme.of(context).accentColor,
-                  child: Text(
-                    meal.ingredients[i],
+                  elevation: 0,
+                  color: Colors.grey[300],
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Text(
+                      meal.ingredients[i],
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
@@ -71,7 +77,13 @@ class MealDetailScreen extends StatelessWidget {
                   leading: CircleAvatar(
                     child: Text('#${(i + 1)}'),
                   ),
-                  title: Text(meal.steps[i]),
+                  title: Text(
+                    meal.steps[i],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
               ),
             ),
