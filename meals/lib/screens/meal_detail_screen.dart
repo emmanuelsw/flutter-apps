@@ -20,7 +20,6 @@ class MealDetailScreen extends StatelessWidget {
   Widget _listContainer({Widget child}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 6),
-      height: 200,
       width: double.infinity,
       child: child,
     );
@@ -54,39 +53,48 @@ class MealDetailScreen extends StatelessWidget {
             ),
             _sectionTitle('Ingredients'),
             _listContainer(
-              child: ListView.builder(
-                itemCount: meal.ingredients.length,
-                itemBuilder: (ctx, i) => Card(
-                  elevation: 0,
-                  color: Colors.grey[300],
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Text(
-                      meal.ingredients[i],
-                      style: TextStyle(fontWeight: FontWeight.bold),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  for (var ingredient in meal.ingredients)
+                    Card(
+                      elevation: 0,
+                      color: Colors.grey[300],
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        child: Text(
+                          ingredient,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                ],
               ),
             ),
             _sectionTitle('Steps'),
             _listContainer(
-              child: ListView.builder(
-                itemCount: meal.steps.length,
-                itemBuilder: (ctx, i) => ListTile(
-                  leading: CircleAvatar(
-                    child: Text('#${(i + 1)}'),
-                  ),
-                  title: Text(
-                    meal.steps[i],
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
+              child: Column(
+                children: <Widget>[
+                  for (MapEntry entry in meal.steps.asMap().entries)
+                    ListTile(
+                      leading: CircleAvatar(
+                        child: Text('${entry.key + 1}'),
+                      ),
+                      title: Text(
+                        entry.value,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                ],
               ),
             ),
+            SizedBox(height: 20)
           ],
         ),
       ),
