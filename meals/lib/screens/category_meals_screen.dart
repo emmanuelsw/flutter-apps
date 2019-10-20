@@ -1,19 +1,42 @@
 import 'package:flutter/material.dart';
+import '../models/meal.dart';
 import '../widgets/meal_item.dart';
 import '../data/dummy-data.dart';
 
-class CategoryMealsScreen extends StatelessWidget {
+class CategoryMealsScreen extends StatefulWidget {
   static const routeName = 'category-meals';
 
   @override
-  Widget build(BuildContext context) {
-    final routeArgs = ModalRoute.of(context).settings.arguments as Map<String, String>;
-    final id = routeArgs['id'];
-    final title = routeArgs['title'];
-    final meals = DUMMY_MEALS.where((meal) {
-      return meal.categories.contains(id);
-    }).toList();
+  _CategoryMealsScreenState createState() => _CategoryMealsScreenState();
+}
 
+class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
+  String title;
+  List<Meal> meals;
+  var _loadedInitData;
+
+  @override
+  void didChangeDependencies() {
+    if (!_loadedInitData) {
+      final routeArgs = ModalRoute.of(context).settings.arguments as Map<String, String>;
+      final id = routeArgs['id'];
+      title = routeArgs['title'];
+      meals = DUMMY_MEALS.where((meal) {
+        return meal.categories.contains(id);
+      }).toList();
+      _loadedInitData = true;
+    }
+    super.didChangeDependencies();
+  }
+
+  void _removeMeal(id) {
+    setState(() {
+      meals.removeWhere((meal) => meal.id == id);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(241, 243, 244, 1),
       appBar: AppBar(
@@ -33,6 +56,7 @@ class CategoryMealsScreen extends StatelessWidget {
             duration: meals[i].duration,
             complexity: meals[i].complexity,
             affordability: meals[i].affordability,
+            removeItem: _removeMeal,
           );
         },
         itemCount: meals.length,
