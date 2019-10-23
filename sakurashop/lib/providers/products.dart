@@ -9,15 +9,14 @@ class Products with ChangeNotifier {
       description: 'A red shirt - it is pretty red!',
       price: 29.99,
       imageUrl:
-          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
+          'http://cdn.shopify.com/s/files/1/1270/1127/products/1975_red_shirt_grande.png?v=1543869413',
     ),
     Product(
       id: 'p2',
       title: 'Trousers',
       description: 'A nice pair of trousers.',
       price: 59.99,
-      imageUrl:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Trousers%2C_dress_%28AM_1960.022-8%29.jpg/512px-Trousers%2C_dress_%28AM_1960.022-8%29.jpg',
+      imageUrl: 'https://www.bytimo.no/wp-content/uploads/2019/09/001.jpg',
     ),
     Product(
       id: 'p3',
@@ -33,7 +32,7 @@ class Products with ChangeNotifier {
       description: 'Prepare any meal you want.',
       price: 49.99,
       imageUrl:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
+          'https://target.scene7.com/is/image/Target/GUEST_6550fc8b-aff0-4bbf-9471-5ffec074c636?wid=488&hei=488&fmt=pjpeg',
     ),
   ];
 

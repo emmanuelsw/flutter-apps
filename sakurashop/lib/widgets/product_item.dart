@@ -13,10 +13,22 @@ class ProductItem extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
+        header: IconButton(
+          icon: Icon(
+            product.isFavorite ? Icons.favorite : Icons.favorite_border,
+          ),
+          alignment: Alignment.topLeft,
+          color: Colors.pink[700],
+          onPressed: () {
+            product.toggleFavorite();
+          },
+        ),
         child: GestureDetector(
           onTap: () {
-            Navigator.of(context)
-                .pushNamed(ProductDetailScreen.route, arguments: product.id);
+            Navigator.of(context).pushNamed(
+              ProductDetailScreen.route,
+              arguments: product.id,
+            );
           },
           child: Image.network(
             product.imageUrl,
@@ -25,24 +37,23 @@ class ProductItem extends StatelessWidget {
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black87,
-          leading: IconButton(
-            iconSize: 20,
-            icon: Icon(product.isFavorite ? Icons.favorite : Icons.favorite_border),
-            color: Colors.pink[700],
-            onPressed: () {
-              product.toggleFavorite();
-            },
-          ),
           title: Text(
             product.title,
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.left,
           ),
           trailing: IconButton(
             iconSize: 20,
-            icon: Icon(Icons.shopping_cart),
-            color: Colors.indigo,
+            icon: Icon(Icons.add_shopping_cart),
+            color: Colors.indigo[300],
             onPressed: () {
               cart.addItem(product.id, product.title, product.price);
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  duration: Duration(seconds: 2),
+                  backgroundColor: Colors.green,
+                  content: Text("${product.title} added to the cart!"),
+                ),
+              );
             },
           ),
         ),
