@@ -14,7 +14,10 @@ class SakuraBar extends StatelessWidget {
       elevation: 0,
       title: Text(
         title,
-        style: TextStyle(color: Colors.pink[300]),
+        style: TextStyle(
+          color: Colors.pink[400],
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
