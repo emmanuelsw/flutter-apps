@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../screens/cart_screen.dart';
+
 import '../providers/cart.dart';
 import '../ui/sakura_bar.dart';
+import '../widgets/app_drawer.dart';
 import '../widgets/badge.dart';
 import '../widgets/products_grid.dart';
+import './cart_screen.dart';
 
 enum FilterOptions {
   Favorites,
@@ -22,6 +24,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50),
         child: SakuraBar(
