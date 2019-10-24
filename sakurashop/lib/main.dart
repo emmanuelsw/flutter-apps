@@ -33,6 +33,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           canvasColor: Color.fromRGBO(241, 242, 246, 1),
           fontFamily: 'Quicksand',
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent
         ),
         home: ProductsOverviewScreen(),
         routes: {

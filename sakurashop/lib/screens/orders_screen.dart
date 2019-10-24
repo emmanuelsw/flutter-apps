@@ -23,11 +23,26 @@ class OrdersScreen extends StatelessWidget {
           title: 'Your Orders',
         ),
       ),
-      body: ListView.builder(
-        itemCount: ordersData.orders.length,
-        itemBuilder: (ctx, i) => OrderItem(ordersData.orders[i]),
-      ),
+      body: ordersData.orders.length > 0
+        ? ListView.builder(
+            itemCount: ordersData.orders.length,
+            itemBuilder: (ctx, i) => OrderItem(ordersData.orders[i]),
+          )
+        : Container(
+            padding: EdgeInsets.all(10),
+            width: double.infinity,
+            child: Card(
+              elevation: 0,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                child: Text(
+                  'There are no orders to display.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+            ),
+          ),
     );
   }
-
 }
