@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sakurashop/screens/product_form_screen.dart';
 import 'package:sakurashop/widgets/user_product_item.dart';
 
 import '../providers/products.dart';
@@ -24,7 +25,9 @@ class UserProductsScreen extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.add),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(ProductFormScreen.route);
+              },
             )
           ],
         ),
