@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/products.dart';
 import '../providers/product.dart';
 import '../ui/sakura_bar.dart';
 
@@ -15,6 +18,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   final _imageUrlFocus = FocusNode();
   final _imageUrlController = TextEditingController();
   final _form = GlobalKey<FormState>();
+
   var _formProduct = Product(
     id: null,
     title: '',
@@ -46,8 +50,13 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   }
 
   void _saveForm() {
+    final isValid = _form.currentState.validate();
+    if (!isValid) {
+      return;
+    }
     _form.currentState.save();
-    
+    Provider.of<Products>(context, listen: false).addProduct(_formProduct);
+    Navigator.of(context).pop();
   }
 
   Widget _imagePreviewBox() {
@@ -72,6 +81,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       margin: EdgeInsets.only(top: 15, right: 15),
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.grey),
+        borderRadius: BorderRadius.circular(3),
       ),
       child: _imageUrlController.text.isEmpty ? placeholder : image,
     );
@@ -94,6 +104,13 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
             children: <Widget>[
               TextFormField(
                 textInputAction: TextInputAction.next,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please provide a value';
+                  } else {
+                    return null;
+                  }
+                },
                 decoration: InputDecoration(
                   labelText: 'Title',
                 ),
@@ -114,6 +131,18 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
                 focusNode: _priceFocus,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter a price';
+                  }
+                  if (double.tryParse(value) == null) {
+                    return 'Please enter a valid number';
+                  }
+                  if (double.parse(value) <= 0) {
+                    return 'Please enter a number greater than zero.';
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                   labelText: 'Price',
                 ),
@@ -134,6 +163,15 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 maxLines: 3,
                 keyboardType: TextInputType.multiline,
                 focusNode: _descriptionFocus,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter a description';
+                  }
+                  if (value.length <= 10) {
+                    return 'Should be at least 10 characters long';
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                   labelText: 'Description',
                 ),
@@ -157,6 +195,15 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                       controller: _imageUrlController,
                       textInputAction: TextInputAction.done,
                       focusNode: _imageUrlFocus,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter an image URL';
+                        }
+                        if (!value.startsWith('http') && !value.startsWith('https')) {
+                          return 'Please enter a valid URL';
+                        }
+                        return null;
+                      },
                       onSaved: (value) {
                         _formProduct = Product(
                           title: _formProduct.title,
