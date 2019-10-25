@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sakurashop/screens/product_form_screen.dart';
+import 'package:provider/provider.dart';
+import '../providers/products.dart';
+import '../screens/product_form_screen.dart';
 
 class UserProductItem extends StatelessWidget {
   final String id;
@@ -31,7 +33,9 @@ class UserProductItem extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.delete_forever),
                 color: Colors.pink[400],
-                onPressed: () {},
+                onPressed: () {
+                  Provider.of<Products>(context, listen: false).deleteProduct(id);
+                },
               ),
             ],
           ),
