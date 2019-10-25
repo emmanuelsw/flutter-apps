@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sakurashop/screens/product_form_screen.dart';
 
 class UserProductItem extends StatelessWidget {
+  final String id;
   final String title;
   final String imageUrl;
 
-  const UserProductItem(this.title, this.imageUrl);
+  const UserProductItem(this.id, this.title, this.imageUrl);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,9 @@ class UserProductItem extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.edit),
                 color: Colors.indigo,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(ProductFormScreen.route, arguments: id);
+                },
               ),
               IconButton(
                 icon: Icon(Icons.delete_forever),

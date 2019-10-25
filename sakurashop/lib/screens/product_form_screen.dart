@@ -18,6 +18,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   final _imageUrlFocus = FocusNode();
   final _imageUrlController = TextEditingController();
   final _form = GlobalKey<FormState>();
+  var _isInit = true;
 
   var _formProduct = Product(
     id: null,
@@ -27,10 +28,36 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     description: '',
   );
 
+  var _initValues = {
+    'title': '',
+    'description': '',
+    'price': '',
+    'imageUrl': '',
+  };
+
   @override
   void initState() {
     _imageUrlFocus.addListener(_updateImageUrl);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final productId = ModalRoute.of(context).settings.arguments as String;
+      if (productId != null) {
+        _formProduct = Provider.of<Products>(context, listen: false).findById(productId);
+        _initValues = {
+          'title': _formProduct.title,
+          'description': _formProduct.description,
+          'price': _formProduct.price.toString(),
+          'imageUrl': '',
+        };
+        _imageUrlController.text = _formProduct.imageUrl;
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
   }
 
   @override
@@ -55,7 +82,13 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       return;
     }
     _form.currentState.save();
-    Provider.of<Products>(context, listen: false).addProduct(_formProduct);
+
+    if (_formProduct.id != null) {
+      Provider.of<Products>(context, listen: false).updateProduct(_formProduct.id, _formProduct);
+    } else {
+      Provider.of<Products>(context, listen: false).addProduct(_formProduct);
+    }
+
     Navigator.of(context).pop();
   }
 
@@ -104,6 +137,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
             children: <Widget>[
               TextFormField(
                 textInputAction: TextInputAction.next,
+                initialValue: _initValues['title'],
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please provide a value';
@@ -123,11 +157,13 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                     description: _formProduct.description,
                     price: _formProduct.price,
                     imageUrl: _formProduct.imageUrl,
-                    id: null,
+                    id: _formProduct.id,
+                    isFavorite: _formProduct.isFavorite
                   );
                 },
               ),
               TextFormField(
+                initialValue: _initValues['price'],
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
                 focusNode: _priceFocus,
@@ -155,12 +191,14 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                     description: _formProduct.description,
                     price: double.parse(value),
                     imageUrl: _formProduct.imageUrl,
-                    id: null,
+                    id: _formProduct.id,
+                    isFavorite: _formProduct.isFavorite
                   );
                 },
               ),
               TextFormField(
                 maxLines: 3,
+                initialValue: _initValues['description'],
                 keyboardType: TextInputType.multiline,
                 focusNode: _descriptionFocus,
                 validator: (value) {
@@ -181,7 +219,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                     description: value,
                     price: _formProduct.price,
                     imageUrl: _formProduct.imageUrl,
-                    id: null,
+                    id: _formProduct.id,
+                    isFavorite: _formProduct.isFavorite
                   );
                 },
               ),
@@ -199,7 +238,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                         if (value.isEmpty) {
                           return 'Please enter an image URL';
                         }
-                        if (!value.startsWith('http') && !value.startsWith('https')) {
+                        if (!value.startsWith('http') &&
+                            !value.startsWith('https')) {
                           return 'Please enter a valid URL';
                         }
                         return null;
@@ -210,7 +250,8 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                           description: _formProduct.description,
                           price: _formProduct.price,
                           imageUrl: value,
-                          id: null,
+                          id: _formProduct.id,
+                          isFavorite: _formProduct.isFavorite
                         );
                       },
                       onFieldSubmitted: (_) {
