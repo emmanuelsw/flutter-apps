@@ -1,6 +1,7 @@
+import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 import './product.dart';
 
 class Products with ChangeNotifier {
@@ -51,6 +52,18 @@ class Products with ChangeNotifier {
   }
 
   void addProduct(Product product) {
+    const url = 'https://sakura-shop.firebaseio.com/products.json';
+
+    http.post(url, body: json.encode({
+      'title': product.title,
+      'description': product.description,
+      'price': product.price,
+      'imageUrl': product.imageUrl,
+      'isFavorite': product.isFavorite
+    }));
+
+    
+
     final newProduct = Product(
       id: Random.secure().toString(),
       title: product.title,
