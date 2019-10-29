@@ -83,7 +83,13 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ],
         ),
       ),
-      body: _isLoading ? Center(child: CircularProgressIndicator()) : ProductsGrid(_showFavoriesOnly),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.pink[400]),
+              ),
+            )
+          : ProductsGrid(_showFavoriesOnly),
     );
   }
 }

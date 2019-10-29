@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sakurashop/screens/product_form_screen.dart';
-import 'package:sakurashop/widgets/user_product_item.dart';
 
 import '../providers/products.dart';
 import '../ui/sakura_bar.dart';
+import '../screens/product_form_screen.dart';
+import '../widgets/user_product_item.dart';
 import '../widgets/app_drawer.dart';
 
 class UserProductsScreen extends StatelessWidget {
   static const route = '/user-products';
 
-  const UserProductsScreen();
+  Future<void> _refreshProducts(BuildContext ctx) async {
+    await Provider.of<Products>(ctx).fetchProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +34,18 @@ class UserProductsScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: products.items.length,
-          itemBuilder: (ctx, i) => UserProductItem(
-            products.items[i].id,
-            products.items[i].title,
-            products.items[i].imageUrl,
+      body: RefreshIndicator(
+        color: Colors.pink[400],
+        onRefresh: () => _refreshProducts(context),
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: ListView.builder(
+            itemCount: products.items.length,
+            itemBuilder: (ctx, i) => UserProductItem(
+              products.items[i].id,
+              products.items[i].title,
+              products.items[i].imageUrl,
+            ),
           ),
         ),
       ),

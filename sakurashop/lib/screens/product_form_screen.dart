@@ -89,11 +89,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     });
 
     if (_formProduct.id != null) {
-      Provider.of<Products>(context, listen: false).updateProduct(_formProduct.id, _formProduct);
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
+      await Provider.of<Products>(context, listen: false).updateProduct(_formProduct.id, _formProduct);
     } else {
       try {
         await Provider.of<Products>(context, listen: false).addProduct(_formProduct);
@@ -113,13 +109,12 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
             ],
           ),
         );
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
       }
     }
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
   }
 
   Widget _imagePreviewBox() {
