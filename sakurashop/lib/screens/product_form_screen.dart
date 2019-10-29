@@ -47,8 +47,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     if (_isInit) {
       final productId = ModalRoute.of(context).settings.arguments as String;
       if (productId != null) {
-        _formProduct =
-            Provider.of<Products>(context, listen: false).findById(productId);
+        _formProduct = Provider.of<Products>(context, listen: false).findById(productId);
         _initValues = {
           'title': _formProduct.title,
           'description': _formProduct.description,
@@ -78,7 +77,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     }
   }
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     final isValid = _form.currentState.validate();
     if (!isValid) {
       return;
@@ -90,21 +89,36 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     });
 
     if (_formProduct.id != null) {
-      Provider.of<Products>(context, listen: false)
-          .updateProduct(_formProduct.id, _formProduct);
+      Provider.of<Products>(context, listen: false).updateProduct(_formProduct.id, _formProduct);
       setState(() {
         _isLoading = false;
       });
       Navigator.of(context).pop();
     } else {
-      Provider.of<Products>(context, listen: false)
-          .addProduct(_formProduct)
-          .then((_) {
+      try {
+        await Provider.of<Products>(context, listen: false).addProduct(_formProduct);
+      } catch (error) {
+        await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('An error occurred.'),
+            content: Text('Something went wrong.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ),
+        );
+      } finally {
         setState(() {
           _isLoading = false;
         });
         Navigator.of(context).pop();
-      });
+      }
     }
   }
 
@@ -258,8 +272,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                               if (value.isEmpty) {
                                 return 'Please enter an image URL';
                               }
-                              if (!value.startsWith('http') &&
-                                  !value.startsWith('https')) {
+                              if (!value.startsWith('http') && !value.startsWith('https')) {
                                 return 'Please enter a valid URL';
                               }
                               return null;
