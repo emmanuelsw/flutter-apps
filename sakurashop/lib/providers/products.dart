@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import '../models/http_exception.dart';
 import './product.dart';
 
 class Products with ChangeNotifier {
@@ -90,8 +91,21 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere((product) => product.id == id);
+  Future<void> deleteProduct(String id) async {
+    final url = 'https://sakura-shop.firebaseio.com/products/$id.json';
+    final index = _items.indexWhere((product) => product.id == id);
+    var existingProduct = _items[index];
+
+    existingProduct = null;
+    _items.removeAt(index);
+
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _items.insert(index, existingProduct);
+      notifyListeners();
+      throw HttpException('Could not delete product.');
+    }
+
     notifyListeners();
   }
 }
