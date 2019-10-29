@@ -48,22 +48,7 @@ class CartScreen extends StatelessWidget {
                     backgroundColor: Colors.indigo,
                   ),
                   Spacer(),
-                  RaisedButton(
-                    elevation: 0,
-                    onPressed: () {
-                      if (cart.totalAmount > 0) {
-                        Provider.of<Orders>(context, listen: false).addOrder(
-                          cart.items.values.toList(),
-                          cart.totalAmount,
-                        );
-                        cart.clear();
-                      }
-                    },
-                    child: Text(
-                      'Order Now',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  )
+                  OrderButton(cart: cart)
                 ],
               ),
             ),
@@ -84,6 +69,62 @@ class CartScreen extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class OrderButton extends StatefulWidget {
+  final Cart cart;
+  const OrderButton({@required this.cart});
+
+  @override
+  _OrderButtonState createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  var _isLoading = false;
+
+  Widget _buttonContent() {
+    if (_isLoading) {
+      return SizedBox(
+        height: 20,
+        width: 20,
+        child: CircularProgressIndicator(
+          strokeWidth: 3,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.pink[400]),
+        ),
+      );
+    } else {
+      return Text(
+        'Order Now',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      );
+    }
+  }
+
+  void _buttonAction() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    await Provider.of<Orders>(context, listen: false).addOrder(
+      widget.cart.items.values.toList(),
+      widget.cart.totalAmount,
+    );
+    setState(() {
+      _isLoading = false;
+    });
+    widget.cart.clear();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      elevation: 0,
+      disabledColor: Colors.grey[300],
+      disabledTextColor: Colors.grey[700],
+      onPressed: (widget.cart.totalAmount <= 0 || _isLoading) ? null : _buttonAction,
+      child: _buttonContent(),
     );
   }
 }

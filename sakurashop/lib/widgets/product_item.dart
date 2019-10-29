@@ -20,8 +20,8 @@ class ProductItem extends StatelessWidget {
           ),
           alignment: Alignment.topLeft,
           color: Colors.pink[700],
-          onPressed: () async {
-            await product.toggleFavorite();
+          onPressed: () {
+            product.toggleFavorite();
           },
         ),
         child: GestureDetector(
