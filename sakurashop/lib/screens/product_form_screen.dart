@@ -160,9 +160,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
         ),
       ),
       body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Center(child: CircularProgressIndicator())
           : Padding(
               padding: EdgeInsets.all(16),
               child: Form(
