@@ -96,7 +96,6 @@ class Products with ChangeNotifier {
     final index = _items.indexWhere((product) => product.id == id);
     var existingProduct = _items[index];
 
-    existingProduct = null;
     _items.removeAt(index);
 
     final response = await http.delete(url);
@@ -106,6 +105,7 @@ class Products with ChangeNotifier {
       throw HttpException('Could not delete product.');
     }
 
+    existingProduct = null;
     notifyListeners();
   }
 }
