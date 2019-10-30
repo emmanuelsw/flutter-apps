@@ -40,15 +40,15 @@ class Orders with ChangeNotifier {
             amount: data['amount'],
             date: DateTime.parse(data['date']),
             products: (data['products'] as List<dynamic>)
-                .map(
-                  (item) => CartItem(
-                    id: item['id'],
-                    title: item['title'],
-                    price: item['price'],
-                    quantity: item['quantity'],
-                  ),
-                )
-                .toList(),
+              .map(
+                (item) => CartItem(
+                  id: item['id'],
+                  title: item['title'],
+                  price: item['price'],
+                  quantity: item['quantity'],
+                ),
+              )
+              .toList(),
           ),
         );
       });
@@ -69,13 +69,13 @@ class Orders with ChangeNotifier {
         body: json.encode({
           'amount': total,
           'products': products
-              .map((product) => {
-                    'id': product.id,
-                    'title': product.title,
-                    'quantity': product.quantity,
-                    'price': product.price,
-                  })
-              .toList(),
+            .map((product) => {
+                  'id': product.id,
+                  'title': product.title,
+                  'quantity': product.quantity,
+                  'price': product.price,
+                })
+            .toList(),
           'date': timestamp.toIso8601String(),
         }),
       );
