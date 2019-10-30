@@ -24,6 +24,41 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
+  Future<void> fetchOrders() async {
+    const url = 'https://sakura-shop.firebaseio.com/orders.json';
+    try {
+      final response = await http.get(url);
+      final parsed = json.decode(response.body) as Map<String, dynamic>;
+      if (parsed == null) {
+        return;
+      }
+      final List<OrderItem> loadedOrders = [];
+      parsed.forEach((id, data) {
+        loadedOrders.add(
+          OrderItem(
+            id: id,
+            amount: data['amount'],
+            date: DateTime.parse(data['date']),
+            products: (data['products'] as List<dynamic>)
+                .map(
+                  (item) => CartItem(
+                    id: item['id'],
+                    title: item['title'],
+                    price: item['price'],
+                    quantity: item['quantity'],
+                  ),
+                )
+                .toList(),
+          ),
+        );
+      });
+      _orders = loadedOrders.reversed.toList();
+      notifyListeners();
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<void> addOrder(List<CartItem> products, double total) async {
     const url = 'https://sakura-shop.firebaseio.com/orders.json';
     final timestamp = DateTime.now();
@@ -33,12 +68,14 @@ class Orders with ChangeNotifier {
         url,
         body: json.encode({
           'amount': total,
-          'products': products.map((product) => {
-            'id': product.id,
-            'title': product.title,
-            'quantity': product.quantity,
-            'price': product.price
-          }).toList(),
+          'products': products
+              .map((product) => {
+                    'id': product.id,
+                    'title': product.title,
+                    'quantity': product.quantity,
+                    'price': product.price,
+                  })
+              .toList(),
           'date': timestamp.toIso8601String(),
         }),
       );
@@ -55,6 +92,5 @@ class Orders with ChangeNotifier {
     } catch (e) {
       throw e;
     }
-
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 
 class CartItem {
@@ -50,7 +49,7 @@ class Cart with ChangeNotifier {
       _items.putIfAbsent(
         productId,
         () => CartItem(
-          id: Random.secure().toString(),
+          id: Random().nextInt(1000).toString(),
           title: title,
           price: price,
           quantity: 1,
