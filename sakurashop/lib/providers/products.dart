@@ -31,12 +31,13 @@ class Products with ChangeNotifier {
       parsed.forEach((id, data) {
         loadedProducts.add(
           Product(
-              id: id,
-              title: data['title'],
-              description: data['description'],
-              price: data['price'],
-              imageUrl: data['imageUrl'],
-              isFavorite: data['isFavorite']),
+            id: id,
+            title: data['title'],
+            description: data['description'],
+            price: data['price'],
+            imageUrl: data['imageUrl'],
+            isFavorite: data['isFavorite'],
+          ),
         );
       });
       _items = loadedProducts;

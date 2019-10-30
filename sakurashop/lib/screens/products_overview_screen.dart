@@ -21,16 +21,11 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _showFavoriesOnly = false;
-  var _isLoading = false;
+  Future _fetchProducts;
 
   @override
   void initState() {
-    _isLoading = true;
-    Provider.of<Products>(context, listen: false).fetchProducts().then((_) {
-      setState(() {
-        _isLoading = false;
-      });
-    });
+    _fetchProducts = Provider.of<Products>(context, listen: false).fetchProducts();
     super.initState();
   }
 
@@ -57,15 +52,6 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               ),
             ),
             PopupMenuButton(
-              onSelected: (FilterOptions selected) {
-                setState(() {
-                  if (selected == FilterOptions.Favorites) {
-                    _showFavoriesOnly = true;
-                  } else {
-                    _showFavoriesOnly = false;
-                  }
-                });
-              },
               icon: Icon(Icons.more_vert),
               itemBuilder: (_) => [
                 PopupMenuItem(
@@ -77,17 +63,39 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                   value: FilterOptions.All,
                 ),
               ],
+              onSelected: (FilterOptions selected) {
+                setState(() {
+                  if (selected == FilterOptions.Favorites) {
+                    _showFavoriesOnly = true;
+                  } else {
+                    _showFavoriesOnly = false;
+                  }
+                });
+              },
             ),
           ],
         ),
       ),
-      body: _isLoading
-          ? Center(
+      body: FutureBuilder(
+        future: _fetchProducts,
+        builder: (ctx, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
               child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.pink[400]),
               ),
-            )
-          : ProductsGrid(_showFavoriesOnly),
+            );
+          } else {
+            if (snapshot.error != null) {
+              return Center(
+                child: Text('Error'),
+              );
+            } else {
+              return ProductsGrid(_showFavoriesOnly);
+            }
+          }
+        },
+      ),
     );
   }
 }
