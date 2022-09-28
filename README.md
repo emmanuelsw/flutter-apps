@@ -1,3 +1,3 @@
-# Jewel
+# Flutter Apps
 
-Flutter Apps
+My Flutter Apps
